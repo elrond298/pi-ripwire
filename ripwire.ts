@@ -19,7 +19,6 @@ export default function (pi: ExtensionAPI) {
 	pi.on("session_start", async (_event, ctx) => {
 		if (!enabled) return;
 		pi.sendMessage({ customType: "ripwire-primer", content: PRIMER, display: true }, { deliverAs: "nextTurn" });
-		if (ctx.hasUI) ctx.ui.notify("ripwire: usage primer queued for this session", "info");
 	});
 
 	pi.on("before_agent_start", async (event, ctx) => {
