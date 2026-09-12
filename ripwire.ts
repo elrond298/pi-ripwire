@@ -18,6 +18,8 @@ export default function (pi: ExtensionAPI) {
 
 	pi.on("session_start", async (_event, ctx) => {
 		if (!enabled) return;
+		// session_start re-fires after /new, /resume, /fork, /reload and extension-driven newSession() (e.g. plan-mode handoff); don't re-queue the primer into a session whose history already has one
+		if (ctx.sessionManager.getEntries().some((e) => e.type === "custom_message" && e.customType === "ripwire-primer")) return;
 		pi.sendMessage({ customType: "ripwire-primer", content: PRIMER, display: true }, { deliverAs: "nextTurn" });
 	});
 
